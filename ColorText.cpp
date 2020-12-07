@@ -33,6 +33,7 @@ END_MESSAGE_MAP ()
 
 CMainWindow::CMainWindow ()
 {
+    log = 0;
     CString strWndClass = AfxRegisterWndClass (
         0,
         myApp.LoadStandardCursor (IDC_ARROW),
@@ -119,7 +120,7 @@ int CMainWindow::OnCreate (LPCREATESTRUCT lpcs)
 
     SetTime.Create(_T("登记时间"), WS_CHILD | WS_VISIBLE |
         WS_GROUP | BS_PUSHBUTTON, CRect(m_cxChar * 4, m_cyChar * 11.5,
-            m_cxChar * 17, m_cyChar * 13.5), this, IDC_SETBONUS);
+            m_cxChar * 17, m_cyChar * 13.5), this, IDC_SETTIME);
 
     time1.Create(_T("年"),
         WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 20,
@@ -139,7 +140,7 @@ int CMainWindow::OnCreate (LPCREATESTRUCT lpcs)
 
     SetBonus.Create(_T("登记售额"), WS_CHILD | WS_VISIBLE |
         WS_GROUP | BS_PUSHBUTTON, CRect(m_cxChar * 4, m_cyChar * 14,
-            m_cxChar * 17, m_cyChar * 16), this, IDC_SETBONUS);
+            m_cxChar * 17, m_cyChar * 16), this, IDC_SETEXTRACT);
 
     SaleId.Create(ES_LEFT | WS_CHILD | WS_VISIBLE  |
         WS_GROUP, CRect(m_cxChar * 27,
@@ -159,7 +160,7 @@ int CMainWindow::OnCreate (LPCREATESTRUCT lpcs)
 
     SetExtract.Create(_T("登记奖金"), WS_CHILD | WS_VISIBLE |
         WS_GROUP | BS_PUSHBUTTON, CRect(m_cxChar * 4, m_cyChar * 17,
-            m_cxChar * 17, m_cyChar * 19), this, IDC_SETEXTRACT);
+            m_cxChar * 17, m_cyChar * 19), this, IDC_SETBONUS);
 
     BonusId.Create(ES_LEFT | WS_CHILD | WS_VISIBLE |
         WS_GROUP, CRect(m_cxChar * 27,
@@ -207,7 +208,7 @@ int CMainWindow::OnCreate (LPCREATESTRUCT lpcs)
 
     search.Create(_T("员工状态"),
         WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 100,
-            m_cyChar * 15, m_cxChar * 140, m_cyChar * 17), this);
+            m_cyChar * 15, m_cxChar * 140, m_cyChar * 20), this);
 
     SearchID.Create(ES_LEFT | WS_CHILD | WS_VISIBLE |
         WS_GROUP, CRect(m_cxChar * 90,
@@ -313,40 +314,148 @@ void CMainWindow::remove()
 {
     int id;
     CString nu;
-    dele.GetWindowTextA(nu);
+    deletenum.GetWindowTextA(nu);
     id = atoi(nu);
-    nu=D
+    nu = D.getname_bynum(id);
+    if (nu == "查无此人")
+    {
+        edit.SetWindowTextA(nu);
+        return;
+    }
     id=D.Deletmember_bynum(id);
-    if (id == -1);
+    nu.Format("%s已经爬了", nu);
+    edit.SetWindowTextA(nu);
 }
 
 void CMainWindow::addnew()
 {
-
+    int id;
+    CString nu,name;
+    addnum.GetWindowTextA(nu);
+    id = atoi(nu);
+    addname.GetWindowTextA(name);
+    if (D.getname_bynum(id) == "查无此人")
+    {
+        nu.Format("欢迎打工人%s", D.getname_bynum(id));
+        edit.SetWindowTextA(nu);
+        D.AddNewmember(id, "salesperson", name);
+    }
+    else
+    {
+        edit.SetWindowTextA("编号已存在");
+    }
 }
 
 void CMainWindow::SETBonus()
 {
+    int id;
+    CString nu,sum;
+    BonusId.GetWindowTextA(nu);
+    BonusAmount.GetWindowTextA(sum);
 
+    id = atoi(nu);
+    if (D.Idexsist(id))
+    {
+        if (D.SetBonus(id, atof(sum)) == 1)
+        {
+            nu.Format("登记状态:%s发奖金%f", D.getname_bynum(id), D.getearnmoney());
+            setsituation.SetWindowTextA(nu);
+            return;
+        }
+        else
+        {
+            nu.Format("登记状态:不给%s发奖金", D.getname_bynum(id));
+            setsituation.SetWindowTextA(nu);
+            return;
+        }
+    }
+    nu.Format("登记状态:ID%d不存在", id);
+    setsituation.SetWindowTextA(nu);
+    return;
 }
 
 void CMainWindow::SetSale()
 {
+    int id;
+    CString nu, sum;
+    SaleId.GetWindowTextA(nu);
+    SaleAmount.GetWindowTextA(sum);
 
+    id = atoi(nu);
+    if (D.Idexsist(id))
+    {
+        if (D.SetEarn(id, atof(sum)) == 1)
+        {
+
+            nu.Format("登记状态:打工人%s销售额%f", D.getname_bynum(id), D.getearnmoney_id(id));
+            setsituation.SetWindowTextA(nu);
+            return;
+        }
+        else
+        {
+            nu.Format("登记状态:%s不做销售", D.getname_bynum(id));
+            setsituation.SetWindowTextA(nu);
+            return;
+        }
+    }
+    nu.Format("登记状态:ID%d不存在", id);
+    setsituation.SetWindowTextA(nu);
+    return;
 }
 
 void CMainWindow::LOGGIN()
 {
+    CString s;
+    char ch[64];
+    time_t t = time(0);
+    strftime(ch, sizeof(ch), "don-%H-%M", localtime(&t));
+    LOGpassword.GetWindowTextA(s);
+    if (s == ch)
+    {
+        log = 1;
 
+        m_wndText.SetWindowTextA("登陆成功，输入正确计算式再点计算");
+
+    }
+    else
+    {
+        m_wndText.SetWindowTextA("密码错误请勿盗号");
+
+    }
 }
 
 void CMainWindow::Searching()
 {
+    int id;
+    CString nu;
+    SearchID.GetWindowTextA(nu);
+    id = atoi(nu);
+    if (D.Idexsist(id)) 
+    {
 
+        nu = D.getsituation_now_num(id);
+        search.SetWindowTextA(nu);
+    }
 }
 
 void CMainWindow::SETTime()
 {
-
+    int year, month;
+    CString y, m;
+    Year.GetWindowTextA(y);
+    Month.GetWindowTextA(m);
+    year = atoi(y);
+    month = atoi(m);
+    if (month > 12 || month <=0)
+    {
+        y.Format("登记状态：%d月是真滴牛批", month);
+        setsituation.SetWindowTextA(y);
+        return;
+    }
+    D.year = year;
+    D.month = month;
+    y.Format("登记状态：设定时间%d年%d月", year,month);
+    setsituation.SetWindowTextA(y);
+    return;
 }
 

@@ -30,6 +30,7 @@ Companymember::Companymember(int num, CString statena, CString na)
 	}
 	name = na;
 	 earn=0;
+	 bonus=0;
 }
 
 CString Companymember::getformula()
@@ -37,28 +38,35 @@ CString Companymember::getformula()
 	CString mid;
 	if (statename == "general_manager")
 	{
-		return "工资:20000";
+		return "20000 = 工资:20000";
 	}
 	else if (statename == "sale_manager")
 	{
-		mid.Format("工资:8000+提成:%f*0.005", (Getsalary()-8000)/0.005);
+		mid.Format("%f = 工资:8000+提成:%f*0.005",salary, (Getsalary()-8000)/0.005);
 		return mid;
 	}
 	else if (statename == "technician")
 	{
-		mid.Format("工资:6000+奖金:%f", Getsalary()-6000);
+		mid.Format("%f = 工资:6000+奖金:%f",salary, Getsalary()-6000);
 		return mid;
 	}
 	else if (statename == "tech_manager")
 	{
-		mid.Format("工资:12000+奖金:%f", Getsalary() - 12000);
+		mid.Format("%f = 工资:12000+奖金:%f",salary, Getsalary() - 12000);
 		return mid;
 	}
 	else
 	{
-		mid.Format("提成:%f*0.01",Getsalary()*100 );
+		mid.Format("%f = 提成:%f*0.01",salary,Getsalary()*100 );
 		return mid;
 	}
+}
+
+CString Companymember::getsituation_now()
+{
+	CString answer="";
+	answer.Format("%s;%d;%d;%s\n", name, number, state, getformula());
+	return answer;
 }
 
 void Companymember::setstate(int newstate, bool tech)
@@ -103,7 +111,7 @@ void Companymember::setstatename(CString stana)
 
 }
 
-void Companymember::updatesalary(double bonus, double extraction)
+void Companymember::updatesalary(double bon, double extraction)
 {
 	if (statename == "general_manager")salary = 20000;
 	else if (statename == "sale_manager")salary = 8000 + 0.005 * extraction;
@@ -130,6 +138,7 @@ Company::Company()
 {
 	total_money = 0;
 	month = Jan;
+	year = 2020;
 	memberpath = "./members.txt";
 	datapath = "./sata.txt";
 	int index = 0,countlines=0;
@@ -141,7 +150,6 @@ Company::Company()
 	membernum = countlines;
 	Read.close();
 	Read.open(memberpath);
-	members = new Companymember[membernum];
 	countlines = 0;
 	while (Read.getline(ss, 100))
 	{
@@ -149,10 +157,10 @@ Company::Company()
 		CString Line(line.c_str()),name,statename;
 		index = Line.Find(";");
 		members[countlines].setnum(atoi(Line.Left(index)));
-		Line = Line.Right(index);
+		Line = Line.Right(Line.GetLength() - index - 1);
 		index = Line.Find(";");
 		members[countlines].setstatename(Line.Left(index));
-		Line = Line.Right(index);
+		Line = Line.Right(Line.GetLength() - index - 1);
 		members[countlines].setname(Line);
 		countlines++;
 	}
@@ -193,6 +201,50 @@ void Company::AddNewmember(int num, CString statena, CString na)
 	newmember = 0;
 	
 }
+
+bool Company::Idexsist(int id)
+{
+	for (int i = 0; i < membernum; i++)
+	{
+		if (id == members[i].Getnum())return 1;
+	}
+	return 0;
+}
+
+int Company::SetBonus(int id, double bon)
+{
+	if (Idexsist(id))
+	{
+		if (members[get_index_by_num(id)].Getstatename() == "tech_manager"|| members[get_index_by_num(id)].Getstatename() == "technician")
+		{
+			members[get_index_by_num(id)].setbonus(bon);
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	return -1;
+}
+
+int Company::SetEarn(int id, double ear)
+{
+	if (Idexsist(id))
+	{
+		if (members[get_index_by_num(id)].Getstatename() == "salesperson" )
+		{
+			members[get_index_by_num(id)].setEarn(ear);
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	return -1;
+}
+
 
 CString Company::getname_byindex(int index)
 {
@@ -245,6 +297,7 @@ int Company::Deletmember_byindex(int index)
 		if (i == membernum - 1) Write << members[i].Getnum() << ";" << members[i].Getstatename() << ";" << members[i].getname();
 		else Write << members[i].Getnum() << ";" << members[i].Getstatename() << ";" << members[i].getname() << std::endl;
 	}
+	Write.close();
 	Load();
 	return 1;
 }
@@ -266,10 +319,10 @@ void Company::Load()
 		CString Line(line.c_str()), name, statename;
 		index = Line.Find(";");
 		members[countlines].setnum(atoi(Line.Left(index)));
-		Line = Line.Right(index);
+		Line = Line.Right(Line.GetLength() - index - 1);
 		index = Line.Find(";");
 		members[countlines].setstatename(Line.Left(index));
-		Line = Line.Right(index);
+		Line = Line.Right(Line.GetLength() - index - 1);
 		members[countlines].setname(Line);
 		countlines++;
 	}
@@ -313,18 +366,19 @@ void Company::Downgrade_bynum(int num, bool tec)
 CString Company::getsituation_now()
 {
 	CString situation;
-	situation.Format("%d\n%d\n", year, month);
-	int  *num,nu = 0;
-	num = new int[membernum];
+	situation.Format("%d-%d\n", year, month);
+	int  num[100],nu = 0;
+	//num = new int[membernum];
 	for (int j = 0; j < membernum; j++)
 	{
-		num[j] = members[j].Getnum();
+		members[j];
+		num[j] = j;
 	}
 	for (int j = 0; j < membernum; j++)
 	{
 		for (int i = 0; i < membernum - 1; i++)
 		{
-			if (num[i] > num[i + 1])
+			if (members[num[i]].Getnum() > members[num[i + 1]].Getnum())
 			{
 				nu = num[i];
 				num[i] = num[i + 1];
@@ -337,10 +391,16 @@ CString Company::getsituation_now()
 		CString mid;
 		mid.Format("number: %d    name: %s    ", members[num[i]].Getnum(), members[num[i]].getname());
 		situation.Append(mid);
-		mid.Format("state: %d    \nsalary: %f  =  %s\n", members[num[i]].Getstate(), members[num[i]].Getsalary(),members[num[i]].getformula());
+		mid.Format("state: %d    salary: %s\n", members[num[i]].Getstate(), members[num[i]].getformula());
 		situation.Append(mid);
 	}
 	return situation;
 }
 
-
+CString Company::getsituation_now_num(int id)
+{
+	CString situation;
+	int index = get_index_by_num(id);
+	members[index].updatesalary(0,total_money);
+	return members[index].getsituation_now();
+}

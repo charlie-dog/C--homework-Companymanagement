@@ -35,6 +35,7 @@ public:
 class CMainWindow : public CFrameWnd
 {
 protected:
+    bool log;
     int m_cxChar;
     int m_cyChar;
     CFont m_font;
