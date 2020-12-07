@@ -92,6 +92,12 @@ protected:
     afx_msg void OnRedButtonClicked ();
     afx_msg void OnGreenButtonClicked ();
     afx_msg void OnBlueButtonClicked ();
-
+    afx_msg void remove();
+    afx_msg void addnew();
+    afx_msg void SETBonus();
+    afx_msg void SetSale();
+    afx_msg void LOGGIN();
+    afx_msg void Searching();
+    afx_msg void SETTime();
     DECLARE_MESSAGE_MAP ()
 };

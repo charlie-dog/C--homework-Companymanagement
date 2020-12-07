@@ -194,6 +194,17 @@ void Company::AddNewmember(int num, CString statena, CString na)
 	
 }
 
+CString Company::getname_byindex(int index)
+{
+	if (index >= membernum || index < 0)return "查无此人";
+	return members[index].getname();
+}
+
+CString Company::getname_bynum(int num)
+{
+	return getname_byindex(get_index_by_num(num));
+}
+
 int Company::get_index_by_num(int num)
 {
 	for (int i = 0; i < membernum; i++)
@@ -212,20 +223,20 @@ int Company::get_index_by_name(CString name)
 	return -1;
 }
 
-void Company::Deletmember_bynum(int num)
+int Company::Deletmember_bynum(int num)
 {
-	Deletmember_byindex(get_index_by_num(num));
+	return Deletmember_byindex(get_index_by_num(num));
 }
 
-void Company::Deletmember_byname(CString name)
+int Company::Deletmember_byname(CString name)
 {
-	Deletmember_byindex(get_index_by_name(name));
+	return Deletmember_byindex(get_index_by_name(name));
 }
 
 
-void Company::Deletmember_byindex(int index)
+int Company::Deletmember_byindex(int index)
 {
-	if (index >= membernum || index < 0)return;
+	if (index >= membernum || index < 0)return -1;
 	std::string line;
 	std::fstream Write(memberpath);
 	for (int i = 0; i < membernum; i++)
@@ -235,6 +246,7 @@ void Company::Deletmember_byindex(int index)
 		else Write << members[i].Getnum() << ";" << members[i].Getstatename() << ";" << members[i].getname() << std::endl;
 	}
 	Load();
+	return 1;
 }
 
 void Company::Load()

@@ -22,6 +22,13 @@ BEGIN_MESSAGE_MAP (CMainWindow, CFrameWnd)
     ON_BN_CLICKED (IDC_RED, OnRedButtonClicked)
     ON_BN_CLICKED (IDC_GREEN, OnGreenButtonClicked)
     ON_BN_CLICKED (IDC_BLUE, OnBlueButtonClicked)
+    ON_BN_CLICKED(IDC_ADDMEMBER, addnew)
+    ON_BN_CLICKED(IDC_DELETEMEBER, remove)
+    ON_BN_CLICKED(IDC_LOGIN, LOGGIN)
+    ON_BN_CLICKED(IDC_SETBONUS, SETBonus)
+    ON_BN_CLICKED(IDC_SETEXTRACT, SetSale)
+    ON_BN_CLICKED(IDC_SETTIME, SETTime)
+    ON_BN_CLICKED(IDC_SEARCH, Searching)
 END_MESSAGE_MAP ()
 
 CMainWindow::CMainWindow ()
@@ -301,3 +308,45 @@ HBRUSH CColorStatic::CtlColor (CDC* pDC, UINT nCtlColor)
     pDC->SetBkColor (m_clrBack);
     return (HBRUSH) m_brBkgnd;
 }
+
+void CMainWindow::remove()
+{
+    int id;
+    CString nu;
+    dele.GetWindowTextA(nu);
+    id = atoi(nu);
+    nu=D
+    id=D.Deletmember_bynum(id);
+    if (id == -1);
+}
+
+void CMainWindow::addnew()
+{
+
+}
+
+void CMainWindow::SETBonus()
+{
+
+}
+
+void CMainWindow::SetSale()
+{
+
+}
+
+void CMainWindow::LOGGIN()
+{
+
+}
+
+void CMainWindow::Searching()
+{
+
+}
+
+void CMainWindow::SETTime()
+{
+
+}
+

@@ -53,9 +53,9 @@ public:
 	void setTotalmoney();
 	double getearnmoney() { return total_money; }
 	void AddNewmember(int num, CString statena, CString na);
-	
-	void Deletmember_byname(CString name);
-	void Deletmember_bynum(int name);
+	CString getname_bynum(int num);
+	int Deletmember_byname(CString name);
+	int Deletmember_bynum(int name);
 	CString getsituation(int Year,int Month);
 	CString getsituation_now();
 	void Upgrade_bynum(int num, bool tec);
@@ -64,14 +64,15 @@ public:
 	void Downgrade_byname(CString name, bool tec);
 	void Load();
 private:
+	CString getname_byindex(int index);
 	int get_index_by_num(int num);
 	int get_index_by_name(CString name);
-	void Deletmember_byindex(int index);
+	int Deletmember_byindex(int index);
 	void Upgrade_byindex(int index,bool tec);
 	void Downgrade_byindex(int index, bool tec);
 	double total_money;
 	CString datapath, memberpath;
-	enum month {Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec};
+	enum month {Jan=1,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec};
 	int year,membernum,month;
 	Companymember *members,Newmember;
 	
