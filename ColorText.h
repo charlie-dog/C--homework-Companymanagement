@@ -1,7 +1,14 @@
+#include "company.h"
 #define IDC_RED         100
 #define IDC_GREEN       101
 #define IDC_BLUE        102
-
+#define IDC_ADDMEMBER          103
+#define IDC_DELETEMEBER        104
+#define IDC_LOGIN        105
+#define IDC_SETBONUS        106
+#define IDC_SETEXTRACT        107
+#define IDC_SETTIME        108
+#define IDC_SEARCH        109
 class CColorStatic : public CStatic
 {
 protected:
@@ -33,12 +40,50 @@ protected:
     CFont m_font;
 
     CColorStatic m_wndText;
+    CColorStatic Situation;
+    CColorStatic search;
+    CColorStatic Print;
+    CColorStatic addn1;
+    CColorStatic addn2;
+    CColorStatic bonusnumt;
+    CColorStatic salenumt;
+    CColorStatic bonusamontt;
+    CColorStatic saleamontt;
+    CColorStatic dele;
+    CColorStatic edit;
+    CColorStatic setsituation;
+    CColorStatic time1;
+    CColorStatic time2;
+
     CButton m_wndRadioButtonRed;
     CButton m_wndRadioButtonGreen;
     CButton m_wndRadioButtonBlue;
+    CButton Addmember;
+    CButton Deletemember;
+    CButton LOGER;
+    CButton SetBonus;
+    CButton SetExtract;
+    CButton SetTime;
+    CButton Search;
+
     CButton m_wndGroupBox1;
     CButton m_wndGroupBox2;
+    CButton m_wndGroupBox3;
+    CButton m_wndGroupBox4;
 
+    CEdit addname;
+    CEdit addnum;
+    CEdit deletenum;
+    CEdit BonusAmount;
+    CEdit BonusId;
+    CEdit SaleId;
+    CEdit SaleAmount;
+    CEdit Year;
+    CEdit Month;
+    CEdit LOGpassword;
+    CEdit SearchID;
+
+    Company D;
 public:
     CMainWindow ();
 

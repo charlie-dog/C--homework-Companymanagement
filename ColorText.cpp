@@ -51,17 +51,136 @@ int CMainWindow::OnCreate (LPCREATESTRUCT lpcs)
     m_cyChar = tm.tmHeight + tm.tmExternalLeading;
     dc.SelectObject (pOldFont);
 
-    m_wndGroupBox1.Create (_T ("Sample text"), WS_CHILD | WS_VISIBLE |
-        BS_GROUPBOX, CRect (m_cxChar * 2, m_cyChar, m_cxChar * 62,
-        m_cyChar * 8), this, UINT (-1));
+    m_wndGroupBox1.Create (_T ("人员管理"), WS_CHILD | WS_VISIBLE |
+        BS_GROUPBOX, CRect (m_cxChar * 2, m_cyChar, m_cxChar * 80,
+        m_cyChar * 9), this, UINT (-1));
 
-    m_wndText.Create (_T ("Click a button to change my color"),
-        WS_CHILD | WS_VISIBLE | SS_CENTER, CRect (m_cxChar * 4,
-        m_cyChar * 4, m_cxChar * 60, m_cyChar * 6), this);
+    Deletemember.Create(_T("开除"), WS_CHILD | WS_VISIBLE |
+        WS_GROUP | BS_PUSHBUTTON, CRect(m_cxChar * 5, m_cyChar * 3,
+            m_cxChar * 15, m_cyChar * 5), this, IDC_DELETEMEBER);
+
+    dele.Create(_T("工号"),
+        WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 18,
+            m_cyChar * 3, m_cxChar * 23, m_cyChar * 5), this);
+
+    deletenum.Create(ES_LEFT | WS_CHILD | WS_VISIBLE  |
+        WS_GROUP, CRect(m_cxChar * 25,
+            m_cyChar * 3, m_cxChar * 39, m_cyChar * 5), this, UINT(-1));
+
+    Addmember.Create(_T("招聘"), WS_CHILD | WS_VISIBLE |
+        WS_GROUP | BS_PUSHBUTTON, CRect(m_cxChar * 5, m_cyChar * 6,
+            m_cxChar * 15, m_cyChar * 8), this, IDC_ADDMEMBER);
+
+    addn1.Create(_T("姓名"),
+        WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 40,
+            m_cyChar * 6, m_cxChar * 45, m_cyChar * 8), this);
+
+    addname.Create(ES_LEFT | WS_CHILD | WS_VISIBLE  |
+        WS_GROUP, CRect(m_cxChar * 47,
+            m_cyChar * 6, m_cxChar * 61, m_cyChar * 8), this, UINT(-1));
+
+    addn2.Create(_T("工号"),
+        WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 18,
+            m_cyChar * 6, m_cxChar * 23, m_cyChar * 8), this);
+
+    edit.Create(_T(""),
+        WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 40,
+            m_cyChar * 3, m_cxChar * 60, m_cyChar * 5), this);
+
+    addnum.Create(ES_LEFT | WS_CHILD | WS_VISIBLE  |
+        WS_GROUP, CRect(m_cxChar * 25,
+            m_cyChar * 6, m_cxChar * 39, m_cyChar * 8), this, UINT(-1));
+
+
+    LOGER.Create(_T("登录"), WS_CHILD | WS_VISIBLE |
+        WS_GROUP | BS_PUSHBUTTON, CRect(m_cxChar * 90, m_cyChar * 4,
+            m_cxChar * 100, m_cyChar * 6), this, IDC_LOGIN);
+
+    m_wndGroupBox3.Create(_T("登录"), WS_CHILD | WS_VISIBLE |
+        BS_GROUPBOX, CRect(m_cxChar * 85, m_cyChar, m_cxChar * 115,
+            m_cyChar * 9), this, UINT(-1));
+
+    LOGpassword.Create(ES_LEFT | WS_CHILD | WS_VISIBLE | ES_PASSWORD |
+        WS_GROUP, CRect(m_cxChar * 90,
+            m_cyChar * 6.5, m_cxChar * 110, m_cyChar * 8.5), this, UINT(-1));
+
+
+
+    m_wndGroupBox4.Create(_T("信息登记"), WS_CHILD | WS_VISIBLE |
+        BS_GROUPBOX, CRect(m_cxChar * 2, m_cyChar*10, m_cxChar * 80,
+            m_cyChar * 22), this, UINT(-1));
+
+    SetTime.Create(_T("登记时间"), WS_CHILD | WS_VISIBLE |
+        WS_GROUP | BS_PUSHBUTTON, CRect(m_cxChar * 4, m_cyChar * 11.5,
+            m_cxChar * 17, m_cyChar * 13.5), this, IDC_SETBONUS);
+
+    time1.Create(_T("年"),
+        WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 20,
+            m_cyChar * 11.5, m_cxChar * 25, m_cyChar * 13.5), this);
+
+    time2.Create(_T("月"),
+        WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 50,
+            m_cyChar * 11.5, m_cxChar * 55, m_cyChar * 13.5), this);
+
+    Year.Create(ES_LEFT | WS_CHILD | WS_VISIBLE |
+        WS_GROUP, CRect(m_cxChar * 27,
+            m_cyChar * 11.5, m_cxChar * 48, m_cyChar * 13.5), this, UINT(-1));
+
+    Month.Create(ES_LEFT | WS_CHILD | WS_VISIBLE |
+        WS_GROUP, CRect(m_cxChar * 58,
+            m_cyChar * 11.5, m_cxChar * 78, m_cyChar * 13.5), this, UINT(-1));
+
+    SetBonus.Create(_T("登记售额"), WS_CHILD | WS_VISIBLE |
+        WS_GROUP | BS_PUSHBUTTON, CRect(m_cxChar * 4, m_cyChar * 14,
+            m_cxChar * 17, m_cyChar * 16), this, IDC_SETBONUS);
+
+    SaleId.Create(ES_LEFT | WS_CHILD | WS_VISIBLE  |
+        WS_GROUP, CRect(m_cxChar * 27,
+            m_cyChar * 14, m_cxChar * 48, m_cyChar * 16), this, UINT(-1));
+
+    SaleAmount.Create(ES_LEFT | WS_CHILD | WS_VISIBLE |
+        WS_GROUP, CRect(m_cxChar * 58,
+            m_cyChar * 14, m_cxChar * 78, m_cyChar * 16), this, UINT(-1));
+
+    salenumt.Create(_T("工号"),
+        WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 20,
+            m_cyChar * 14, m_cxChar * 25, m_cyChar * 16), this);
+
+    saleamontt.Create(_T("金额"),
+        WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 50,
+            m_cyChar * 14, m_cxChar * 55, m_cyChar * 16), this);
+
+    SetExtract.Create(_T("登记奖金"), WS_CHILD | WS_VISIBLE |
+        WS_GROUP | BS_PUSHBUTTON, CRect(m_cxChar * 4, m_cyChar * 17,
+            m_cxChar * 17, m_cyChar * 19), this, IDC_SETEXTRACT);
+
+    BonusId.Create(ES_LEFT | WS_CHILD | WS_VISIBLE |
+        WS_GROUP, CRect(m_cxChar * 27,
+            m_cyChar * 17, m_cxChar * 48, m_cyChar * 19), this, UINT(-1));
+
+    BonusAmount.Create(ES_LEFT | WS_CHILD | WS_VISIBLE |
+        WS_GROUP, CRect(m_cxChar * 58,
+            m_cyChar * 17, m_cxChar * 78, m_cyChar * 19), this, UINT(-1));
+
+    bonusnumt.Create(_T("工号"),
+        WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 20,
+            m_cyChar * 17, m_cxChar * 25, m_cyChar * 19), this);
+
+    bonusamontt.Create(_T("金额"),
+        WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 50,
+            m_cyChar * 17, m_cxChar * 55, m_cyChar * 19), this);
+
+    setsituation.Create(_T("登记状态: 未登记"),
+        WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 5,
+            m_cyChar * 19.5, m_cxChar * 65, m_cyChar * 21.5), this);
+
+    m_wndText.Create (_T ("请登录"),
+        WS_CHILD | WS_VISIBLE | SS_CENTER, CRect (m_cxChar * 90,
+        m_cyChar * 2, m_cxChar * 110, m_cyChar * 4), this);
 
     m_wndGroupBox2.Create (_T ("Color"), WS_CHILD | WS_VISIBLE |
         BS_GROUPBOX, CRect (m_cxChar * 64, m_cyChar, m_cxChar * 80,
-        m_cyChar * 8), this, UINT (-1));
+        m_cyChar * 9), this, UINT (-1));
 
     m_wndRadioButtonRed.Create (_T ("Red"), WS_CHILD | WS_VISIBLE |
 	    WS_GROUP | BS_AUTORADIOBUTTON, CRect (m_cxChar * 66, m_cyChar * 3,
@@ -75,11 +194,58 @@ int CMainWindow::OnCreate (LPCREATESTRUCT lpcs)
         BS_AUTORADIOBUTTON, CRect (m_cxChar * 66, m_cyChar * 6,
         m_cxChar * 78, m_cyChar * 7), this, IDC_BLUE);
 
+    Search.Create(_T("查询"), WS_CHILD | WS_VISIBLE |
+        BS_PUSHBUTTON, CRect(m_cxChar * 90, m_cyChar * 12,
+            m_cxChar * 100, m_cyChar * 14), this, IDC_SEARCH);
+
+    search.Create(_T("员工状态"),
+        WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 100,
+            m_cyChar * 15, m_cxChar * 140, m_cyChar * 17), this);
+
+    SearchID.Create(ES_LEFT | WS_CHILD | WS_VISIBLE |
+        WS_GROUP, CRect(m_cxChar * 90,
+            m_cyChar * 15, m_cxChar * 100, m_cyChar * 17), this, UINT(-1));
+
     m_wndRadioButtonRed.SetCheck (1);
+
+    search.SetTextColor(RGB(0, 0, 255));
+    search.SetFont(&m_font, FALSE);
+    time1.SetTextColor(RGB(255, 0, 0));
+    time1.SetFont(&m_font, FALSE);
+    time2.SetTextColor(RGB(255, 0, 0));
+    time2.SetFont(&m_font, FALSE);
+    setsituation.SetTextColor(RGB(255, 0, 0));
+    setsituation.SetFont(&m_font, FALSE);
+    saleamontt.SetTextColor(RGB(255, 0, 0));
+    saleamontt.SetFont(&m_font, FALSE);
+    salenumt.SetTextColor(RGB(255, 0, 0));
+    salenumt.SetFont(&m_font, FALSE);
+    bonusamontt.SetTextColor(RGB(255, 0, 0));
+    bonusamontt.SetFont(&m_font, FALSE);
+    bonusnumt.SetTextColor(RGB(255, 0, 0));
+    bonusnumt.SetFont(&m_font, FALSE);
     m_wndText.SetTextColor (RGB (255, 0, 0));
+    m_wndText.SetFont(&m_font, FALSE);
+    dele.SetTextColor(RGB(255, 0, 0));
+    dele.SetFont(&m_font, FALSE);
+    addn1.SetTextColor(RGB(255, 0, 0));
+    addn1.SetFont(&m_font, FALSE);
+    addn2.SetTextColor(RGB(255, 0, 0));
+    addn2.SetFont(&m_font, FALSE);
+    edit.SetTextColor(RGB(255, 0, 0));
+    edit.SetFont(&m_font, FALSE);
 
     m_wndGroupBox1.SetFont (&m_font, FALSE);
+    Search.SetFont(&m_font, FALSE);
     m_wndGroupBox2.SetFont (&m_font, FALSE);
+    Deletemember.SetFont(&m_font, FALSE);
+    Addmember.SetFont(&m_font, FALSE);
+    SetBonus.SetFont(&m_font, FALSE);
+    SetTime.SetFont(&m_font, FALSE);
+    SetExtract.SetFont(&m_font, FALSE);
+    LOGER.SetFont(&m_font, FALSE);
+    m_wndGroupBox3.SetFont(&m_font, FALSE);
+    m_wndGroupBox4.SetFont(&m_font, FALSE);
     m_wndRadioButtonRed.SetFont (&m_font, FALSE);
     m_wndRadioButtonGreen.SetFont (&m_font, FALSE);
     m_wndRadioButtonBlue.SetFont (&m_font, FALSE);

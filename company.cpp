@@ -32,6 +32,35 @@ Companymember::Companymember(int num, CString statena, CString na)
 	 earn=0;
 }
 
+CString Companymember::getformula()
+{
+	CString mid;
+	if (statename == "general_manager")
+	{
+		return "工资:20000";
+	}
+	else if (statename == "sale_manager")
+	{
+		mid.Format("工资:8000+提成:%f*0.005", (Getsalary()-8000)/0.005);
+		return mid;
+	}
+	else if (statename == "technician")
+	{
+		mid.Format("工资:6000+奖金:%f", Getsalary()-6000);
+		return mid;
+	}
+	else if (statename == "tech_manager")
+	{
+		mid.Format("工资:12000+奖金:%f", Getsalary() - 12000);
+		return mid;
+	}
+	else
+	{
+		mid.Format("提成:%f*0.01",Getsalary()*100 );
+		return mid;
+	}
+}
+
 void Companymember::setstate(int newstate, bool tech)
 {
 	if (newstate == 4)
@@ -86,14 +115,14 @@ void Companymember::updatesalary(double bonus, double extraction)
 void Companymember::upgrade(bool tech)
 {
 	if (state < 4)state++;
-	else state == 4;
+	else state = 4;
 	setstate(state, tech);
 }
 
 void Companymember::downgrade(bool tech)
 {
 	if (state > 0)state--;
-	else state == 0;
+	else state = 0;
 	setstate(state, tech);
 }
 
@@ -101,21 +130,22 @@ Company::Company()
 {
 	total_money = 0;
 	month = Jan;
-	memberpath = "./members.dat";
-	datapath = "./sata.dat";
+	memberpath = "./members.txt";
+	datapath = "./sata.txt";
 	int index = 0,countlines=0;
 
-
+	char ss[100];
 	std::string line;
 	std::fstream Read(memberpath);
-	while (getline(Read, line))countlines++;
+	while (Read.getline(ss, 100))countlines++;
 	membernum = countlines;
 	Read.close();
 	Read.open(memberpath);
 	members = new Companymember[membernum];
 	countlines = 0;
-	while (getline(Read, line))
+	while (Read.getline(ss, 100))
 	{
+		line = ss;
 		CString Line(line.c_str()),name,statename;
 		index = Line.Find(";");
 		members[countlines].setnum(atoi(Line.Left(index)));
@@ -209,17 +239,18 @@ void Company::Deletmember_byindex(int index)
 
 void Company::Load()
 {
+	char ss[100];
 	int index = 0, countlines = 0;
 	std::string line;
 	std::fstream Read(memberpath);
-	while (getline(Read, line))countlines++;
+	while (Read.getline(ss, 100))countlines++;
 	membernum = countlines;
 	Read.close();
 	Read.open(memberpath);
-	members = new Companymember[membernum];
 	countlines = 0;
-	while (getline(Read, line))
+	while (Read.getline(ss, 100))
 	{
+		line = ss;
 		CString Line(line.c_str()), name, statename;
 		index = Line.Find(";");
 		members[countlines].setnum(atoi(Line.Left(index)));
@@ -294,10 +325,10 @@ CString Company::getsituation_now()
 		CString mid;
 		mid.Format("number: %d    name: %s    ", members[num[i]].Getnum(), members[num[i]].getname());
 		situation.Append(mid);
-		mid.Format("number: %d    name: %s\n", members[num[i]].Getnum(), members[num[i]].getname());
+		mid.Format("state: %d    \nsalary: %f  =  %s\n", members[num[i]].Getstate(), members[num[i]].Getsalary(),members[num[i]].getformula());
 		situation.Append(mid);
-
 	}
+	return situation;
 }
 
 

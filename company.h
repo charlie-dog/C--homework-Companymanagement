@@ -20,6 +20,8 @@ public:
 	CString getname() { return name; }
 
 	double getearn() { return earn; }
+
+	CString getformula();
 	
 	void setEarn(double ear) { earn = ear; }
 
