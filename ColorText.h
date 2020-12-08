@@ -9,6 +9,8 @@
 #define IDC_SETEXTRACT        107
 #define IDC_SETTIME        108
 #define IDC_SEARCH        109
+#define IDC_UPG        110
+#define IDC_SAVING        111
 class CColorStatic : public CStatic
 {
 protected:
@@ -43,6 +45,7 @@ protected:
     CColorStatic m_wndText;
     CColorStatic Situation;
     CColorStatic search;
+    CColorStatic searchall;
     CColorStatic Print;
     CColorStatic addn1;
     CColorStatic addn2;
@@ -55,6 +58,8 @@ protected:
     CColorStatic setsituation;
     CColorStatic time1;
     CColorStatic time2;
+    CColorStatic up;
+    CColorStatic tos;
 
     CButton m_wndRadioButtonRed;
     CButton m_wndRadioButtonGreen;
@@ -66,6 +71,8 @@ protected:
     CButton SetExtract;
     CButton SetTime;
     CButton Search;
+    CButton Upgrade;
+    CButton Saving;
 
     CButton m_wndGroupBox1;
     CButton m_wndGroupBox2;
@@ -83,6 +90,8 @@ protected:
     CEdit Month;
     CEdit LOGpassword;
     CEdit SearchID;
+    CEdit UPid;
+    CEdit TorS;
 
     Company D;
 public:
@@ -100,5 +109,7 @@ protected:
     afx_msg void LOGGIN();
     afx_msg void Searching();
     afx_msg void SETTime();
+    afx_msg void UPG();
+    afx_msg void Save();
     DECLARE_MESSAGE_MAP ()
 };

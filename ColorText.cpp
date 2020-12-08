@@ -29,6 +29,8 @@ BEGIN_MESSAGE_MAP (CMainWindow, CFrameWnd)
     ON_BN_CLICKED(IDC_SETEXTRACT, SetSale)
     ON_BN_CLICKED(IDC_SETTIME, SETTime)
     ON_BN_CLICKED(IDC_SEARCH, Searching)
+    ON_BN_CLICKED(IDC_UPG, UPG)
+    ON_BN_CLICKED(IDC_SAVING, Save)
 END_MESSAGE_MAP ()
 
 CMainWindow::CMainWindow ()
@@ -61,43 +63,63 @@ int CMainWindow::OnCreate (LPCREATESTRUCT lpcs)
 
     m_wndGroupBox1.Create (_T ("人员管理"), WS_CHILD | WS_VISIBLE |
         BS_GROUPBOX, CRect (m_cxChar * 2, m_cyChar, m_cxChar * 80,
-        m_cyChar * 9), this, UINT (-1));
+        m_cyChar * 12), this, UINT (-1));
 
-    Deletemember.Create(_T("开除"), WS_CHILD | WS_VISIBLE |
+    Upgrade.Create(_T("升职"), WS_CHILD | WS_VISIBLE |
         WS_GROUP | BS_PUSHBUTTON, CRect(m_cxChar * 5, m_cyChar * 3,
-            m_cxChar * 15, m_cyChar * 5), this, IDC_DELETEMEBER);
+            m_cxChar * 15, m_cyChar * 5), this, IDC_UPG);
 
-    dele.Create(_T("工号"),
+    up.Create(_T("工号"),
         WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 18,
             m_cyChar * 3, m_cxChar * 23, m_cyChar * 5), this);
 
-    deletenum.Create(ES_LEFT | WS_CHILD | WS_VISIBLE  |
+    tos.Create(_T("技/销"),
+        WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 39,
+            m_cyChar * 3, m_cxChar * 46, m_cyChar * 5), this);
+
+    UPid.Create(ES_LEFT | WS_CHILD | WS_VISIBLE |
         WS_GROUP, CRect(m_cxChar * 25,
             m_cyChar * 3, m_cxChar * 39, m_cyChar * 5), this, UINT(-1));
 
-    Addmember.Create(_T("招聘"), WS_CHILD | WS_VISIBLE |
-        WS_GROUP | BS_PUSHBUTTON, CRect(m_cxChar * 5, m_cyChar * 6,
-            m_cxChar * 15, m_cyChar * 8), this, IDC_ADDMEMBER);
-
-    addn1.Create(_T("姓名"),
-        WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 40,
-            m_cyChar * 6, m_cxChar * 45, m_cyChar * 8), this);
-
-    addname.Create(ES_LEFT | WS_CHILD | WS_VISIBLE  |
+    TorS.Create(ES_LEFT | WS_CHILD | WS_VISIBLE |
         WS_GROUP, CRect(m_cxChar * 47,
-            m_cyChar * 6, m_cxChar * 61, m_cyChar * 8), this, UINT(-1));
+            m_cyChar * 3, m_cxChar * 61, m_cyChar * 5), this, UINT(-1));
 
-    addn2.Create(_T("工号"),
+    Deletemember.Create(_T("开除"), WS_CHILD | WS_VISIBLE |
+        WS_GROUP | BS_PUSHBUTTON, CRect(m_cxChar * 5, m_cyChar * 6,
+            m_cxChar * 15, m_cyChar * 8), this, IDC_DELETEMEBER);
+
+    dele.Create(_T("工号"),
         WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 18,
             m_cyChar * 6, m_cxChar * 23, m_cyChar * 8), this);
 
+    deletenum.Create(ES_LEFT | WS_CHILD | WS_VISIBLE  |
+        WS_GROUP, CRect(m_cxChar * 25,
+            m_cyChar * 6, m_cxChar * 39, m_cyChar * 8), this, UINT(-1));
+
+    Addmember.Create(_T("招聘"), WS_CHILD | WS_VISIBLE |
+        WS_GROUP | BS_PUSHBUTTON, CRect(m_cxChar * 5, m_cyChar * 9,
+            m_cxChar * 15, m_cyChar * 11), this, IDC_ADDMEMBER);
+
+    addn1.Create(_T("姓名"),
+        WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 40,
+            m_cyChar * 9, m_cxChar * 45, m_cyChar * 11), this);
+
+    addname.Create(ES_LEFT | WS_CHILD | WS_VISIBLE  |
+        WS_GROUP, CRect(m_cxChar * 47,
+            m_cyChar * 9, m_cxChar * 61, m_cyChar * 11), this, UINT(-1));
+
+    addn2.Create(_T("工号"),
+        WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 18,
+            m_cyChar * 9, m_cxChar * 23, m_cyChar * 11), this);
+
     edit.Create(_T(""),
         WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 40,
-            m_cyChar * 3, m_cxChar * 60, m_cyChar * 5), this);
+            m_cyChar * 6, m_cxChar * 60, m_cyChar * 8), this);
 
     addnum.Create(ES_LEFT | WS_CHILD | WS_VISIBLE  |
         WS_GROUP, CRect(m_cxChar * 25,
-            m_cyChar * 6, m_cxChar * 39, m_cyChar * 8), this, UINT(-1));
+            m_cyChar * 9, m_cxChar * 39, m_cyChar * 11), this, UINT(-1));
 
 
     LOGER.Create(_T("登录"), WS_CHILD | WS_VISIBLE |
@@ -115,72 +137,72 @@ int CMainWindow::OnCreate (LPCREATESTRUCT lpcs)
 
 
     m_wndGroupBox4.Create(_T("信息登记"), WS_CHILD | WS_VISIBLE |
-        BS_GROUPBOX, CRect(m_cxChar * 2, m_cyChar*10, m_cxChar * 80,
-            m_cyChar * 22), this, UINT(-1));
+        BS_GROUPBOX, CRect(m_cxChar * 2, m_cyChar*13, m_cxChar * 80,
+            m_cyChar * 25), this, UINT(-1));
 
     SetTime.Create(_T("登记时间"), WS_CHILD | WS_VISIBLE |
-        WS_GROUP | BS_PUSHBUTTON, CRect(m_cxChar * 4, m_cyChar * 11.5,
-            m_cxChar * 17, m_cyChar * 13.5), this, IDC_SETTIME);
+        WS_GROUP | BS_PUSHBUTTON, CRect(m_cxChar * 4, m_cyChar * 14.5,
+            m_cxChar * 17, m_cyChar * 16.5), this, IDC_SETTIME);
 
     time1.Create(_T("年"),
         WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 20,
-            m_cyChar * 11.5, m_cxChar * 25, m_cyChar * 13.5), this);
+            m_cyChar * 14.5, m_cxChar * 25, m_cyChar * 16.5), this);
 
     time2.Create(_T("月"),
         WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 50,
-            m_cyChar * 11.5, m_cxChar * 55, m_cyChar * 13.5), this);
+            m_cyChar * 14.5, m_cxChar * 55, m_cyChar * 16.5), this);
 
     Year.Create(ES_LEFT | WS_CHILD | WS_VISIBLE |
         WS_GROUP, CRect(m_cxChar * 27,
-            m_cyChar * 11.5, m_cxChar * 48, m_cyChar * 13.5), this, UINT(-1));
+            m_cyChar * 14.5, m_cxChar * 48, m_cyChar * 16.5), this, UINT(-1));
 
     Month.Create(ES_LEFT | WS_CHILD | WS_VISIBLE |
         WS_GROUP, CRect(m_cxChar * 58,
-            m_cyChar * 11.5, m_cxChar * 78, m_cyChar * 13.5), this, UINT(-1));
+            m_cyChar * 14.5, m_cxChar * 78, m_cyChar * 16.5), this, UINT(-1));
 
     SetBonus.Create(_T("登记售额"), WS_CHILD | WS_VISIBLE |
-        WS_GROUP | BS_PUSHBUTTON, CRect(m_cxChar * 4, m_cyChar * 14,
-            m_cxChar * 17, m_cyChar * 16), this, IDC_SETEXTRACT);
+        WS_GROUP | BS_PUSHBUTTON, CRect(m_cxChar * 4, m_cyChar * 17,
+            m_cxChar * 17, m_cyChar * 19), this, IDC_SETEXTRACT);
 
     SaleId.Create(ES_LEFT | WS_CHILD | WS_VISIBLE  |
         WS_GROUP, CRect(m_cxChar * 27,
-            m_cyChar * 14, m_cxChar * 48, m_cyChar * 16), this, UINT(-1));
+            m_cyChar * 17, m_cxChar * 48, m_cyChar * 19), this, UINT(-1));
 
     SaleAmount.Create(ES_LEFT | WS_CHILD | WS_VISIBLE |
         WS_GROUP, CRect(m_cxChar * 58,
-            m_cyChar * 14, m_cxChar * 78, m_cyChar * 16), this, UINT(-1));
+            m_cyChar * 17, m_cxChar * 78, m_cyChar * 19), this, UINT(-1));
 
     salenumt.Create(_T("工号"),
         WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 20,
-            m_cyChar * 14, m_cxChar * 25, m_cyChar * 16), this);
+            m_cyChar * 17, m_cxChar * 25, m_cyChar * 19), this);
 
     saleamontt.Create(_T("金额"),
         WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 50,
-            m_cyChar * 14, m_cxChar * 55, m_cyChar * 16), this);
+            m_cyChar * 17, m_cxChar * 55, m_cyChar * 19), this);
 
     SetExtract.Create(_T("登记奖金"), WS_CHILD | WS_VISIBLE |
-        WS_GROUP | BS_PUSHBUTTON, CRect(m_cxChar * 4, m_cyChar * 17,
-            m_cxChar * 17, m_cyChar * 19), this, IDC_SETBONUS);
+        WS_GROUP | BS_PUSHBUTTON, CRect(m_cxChar * 4, m_cyChar * 20,
+            m_cxChar * 17, m_cyChar * 22), this, IDC_SETBONUS);
 
     BonusId.Create(ES_LEFT | WS_CHILD | WS_VISIBLE |
         WS_GROUP, CRect(m_cxChar * 27,
-            m_cyChar * 17, m_cxChar * 48, m_cyChar * 19), this, UINT(-1));
+            m_cyChar * 20, m_cxChar * 48, m_cyChar * 22), this, UINT(-1));
 
     BonusAmount.Create(ES_LEFT | WS_CHILD | WS_VISIBLE |
         WS_GROUP, CRect(m_cxChar * 58,
-            m_cyChar * 17, m_cxChar * 78, m_cyChar * 19), this, UINT(-1));
+            m_cyChar * 20, m_cxChar * 78, m_cyChar * 22), this, UINT(-1));
 
     bonusnumt.Create(_T("工号"),
         WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 20,
-            m_cyChar * 17, m_cxChar * 25, m_cyChar * 19), this);
+            m_cyChar * 20, m_cxChar * 25, m_cyChar * 22), this);
 
     bonusamontt.Create(_T("金额"),
         WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 50,
-            m_cyChar * 17, m_cxChar * 55, m_cyChar * 19), this);
+            m_cyChar * 20, m_cxChar * 55, m_cyChar * 22), this);
 
     setsituation.Create(_T("登记状态: 未登记"),
         WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 5,
-            m_cyChar * 19.5, m_cxChar * 65, m_cyChar * 21.5), this);
+            m_cyChar * 22.5, m_cxChar * 65, m_cyChar * 24.5), this);
 
     m_wndText.Create (_T ("请登录"),
         WS_CHILD | WS_VISIBLE | SS_CENTER, CRect (m_cxChar * 90,
@@ -206,9 +228,18 @@ int CMainWindow::OnCreate (LPCREATESTRUCT lpcs)
         BS_PUSHBUTTON, CRect(m_cxChar * 90, m_cyChar * 12,
             m_cxChar * 100, m_cyChar * 14), this, IDC_SEARCH);
 
+    Saving.Create(_T("保存"), WS_CHILD | WS_VISIBLE |
+        BS_PUSHBUTTON, CRect(m_cxChar * 90, m_cyChar * 18,
+            m_cxChar * 100, m_cyChar * 20), this, IDC_SAVING);
+
+
     search.Create(_T("员工状态"),
         WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 100,
-            m_cyChar * 15, m_cxChar * 140, m_cyChar * 20), this);
+            m_cyChar * 15, m_cxChar * 160, m_cyChar * 20), this);
+
+    searchall.Create(_T("1"),
+        WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 100,
+            m_cyChar * 20, m_cxChar * 200, m_cyChar * 80), this);
 
     SearchID.Create(ES_LEFT | WS_CHILD | WS_VISIBLE |
         WS_GROUP, CRect(m_cxChar * 90,
@@ -218,6 +249,12 @@ int CMainWindow::OnCreate (LPCREATESTRUCT lpcs)
 
     search.SetTextColor(RGB(0, 0, 255));
     search.SetFont(&m_font, FALSE);
+    up.SetTextColor(RGB(255, 0, 0));
+    up.SetFont(&m_font, FALSE);
+    tos.SetTextColor(RGB(255, 0, 0));
+    tos.SetFont(&m_font, FALSE);
+    searchall.SetTextColor(RGB(0, 0, 255));
+    searchall.SetFont(&m_font, FALSE);
     time1.SetTextColor(RGB(255, 0, 0));
     time1.SetFont(&m_font, FALSE);
     time2.SetTextColor(RGB(255, 0, 0));
@@ -245,11 +282,13 @@ int CMainWindow::OnCreate (LPCREATESTRUCT lpcs)
 
     m_wndGroupBox1.SetFont (&m_font, FALSE);
     Search.SetFont(&m_font, FALSE);
+    Upgrade.SetFont(&m_font, FALSE);
     m_wndGroupBox2.SetFont (&m_font, FALSE);
     Deletemember.SetFont(&m_font, FALSE);
     Addmember.SetFont(&m_font, FALSE);
     SetBonus.SetFont(&m_font, FALSE);
     SetTime.SetFont(&m_font, FALSE);
+    Saving.SetFont(&m_font, FALSE);
     SetExtract.SetFont(&m_font, FALSE);
     LOGER.SetFont(&m_font, FALSE);
     m_wndGroupBox3.SetFont(&m_font, FALSE);
@@ -325,6 +364,7 @@ void CMainWindow::remove()
     id=D.Deletmember_bynum(id);
     nu.Format("%s已经爬了", nu);
     edit.SetWindowTextA(nu);
+    searchall.SetWindowTextA(D.getsituation_now());
 }
 
 void CMainWindow::addnew()
@@ -334,11 +374,17 @@ void CMainWindow::addnew()
     addnum.GetWindowTextA(nu);
     id = atoi(nu);
     addname.GetWindowTextA(name);
+    if (id == 0)
+    {
+        edit.SetWindowTextA("0号不可用");
+        return;
+    }
     if (D.getname_bynum(id) == "查无此人")
     {
+        D.AddNewmember(id, "salesperson", name);
         nu.Format("欢迎打工人%s", D.getname_bynum(id));
         edit.SetWindowTextA(nu);
-        D.AddNewmember(id, "salesperson", name);
+        searchall.SetWindowTextA(D.getsituation_now());
     }
     else
     {
@@ -358,8 +404,9 @@ void CMainWindow::SETBonus()
     {
         if (D.SetBonus(id, atof(sum)) == 1)
         {
-            nu.Format("登记状态:%s发奖金%f", D.getname_bynum(id), D.getearnmoney());
+            nu.Format("登记状态:%s发奖金%f", D.getname_bynum(id), D.getbonus_byid(id));
             setsituation.SetWindowTextA(nu);
+            searchall.SetWindowTextA(D.getsituation_now());
             return;
         }
         else
@@ -386,9 +433,12 @@ void CMainWindow::SetSale()
     {
         if (D.SetEarn(id, atof(sum)) == 1)
         {
-
+            
             nu.Format("登记状态:打工人%s销售额%f", D.getname_bynum(id), D.getearnmoney_id(id));
             setsituation.SetWindowTextA(nu);
+            D.setTotalmoney();
+            D.Updatesalary();
+            searchall.SetWindowTextA(D.getsituation_now());
             return;
         }
         else
@@ -430,12 +480,16 @@ void CMainWindow::Searching()
     CString nu;
     SearchID.GetWindowTextA(nu);
     id = atoi(nu);
-    if (D.Idexsist(id)) 
+    nu = D.getsituation_now();
+    searchall.SetWindowTextA(nu);
+    if (D.Idexsist(id))
     {
 
         nu = D.getsituation_now_num(id);
         search.SetWindowTextA(nu);
     }
+    else
+        search.SetWindowTextA("查无此人");
 }
 
 void CMainWindow::SETTime()
@@ -459,3 +513,30 @@ void CMainWindow::SETTime()
     return;
 }
 
+void CMainWindow::UPG()
+{
+    int id;
+    CString nu;
+    UPid.GetWindowTextA(nu);
+    id = atoi(nu);
+    TorS.GetWindowTextA(nu);
+    
+    if (D.Idexsist(id)&&((nu=="技")||(nu="销")))
+    {
+        if((nu == "技"))
+        D.Upgrade_bynum(id,1);
+        else D.Upgrade_bynum(id, 0);
+        nu.Format("恭喜%s%s", D.get_statename(id), D.getname_bynum(id));
+        edit.SetWindowTextA(nu);
+    }
+    else
+    {
+        edit.SetWindowTextA("查无此人");
+    }
+    
+}
+
+void CMainWindow::Save()
+{
+    D.Savedata();
+}

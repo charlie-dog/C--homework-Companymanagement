@@ -65,7 +65,7 @@ CString Companymember::getformula()
 CString Companymember::getsituation_now()
 {
 	CString answer="";
-	answer.Format("%s;%d;%d;%s\n", name, number, state, getformula());
+	answer.Format("name: %s;number: %d;state: %d\n%s\n", name, number, state, getformula());
 	return answer;
 }
 
@@ -90,6 +90,7 @@ void Companymember::setstate(int newstate, bool tech)
 		{
 			state = newstate;
 			if (state == 1)statename = "salesperson";
+			else if (state == 2)statename = "technician";
 			else if (state == 3)statename = "sale_manager";
 			else { statename = "salesperson"; state = 1; }
 		}
@@ -140,13 +141,13 @@ Company::Company()
 	month = Jan;
 	year = 2020;
 	memberpath = "./members.txt";
-	datapath = "./sata.txt";
+	datapath.Format("%d-%d", year, month);
 	int index = 0,countlines=0;
 
 	char ss[100];
 	std::string line;
 	std::fstream Read(memberpath);
-	while (Read.getline(ss, 100))countlines++;
+	while (Read.getline(ss, 100)) { if (ss != "") countlines++; }
 	membernum = countlines;
 	Read.close();
 	Read.open(memberpath);
@@ -163,6 +164,22 @@ Company::Company()
 		Line = Line.Right(Line.GetLength() - index - 1);
 		members[countlines].setname(Line);
 		countlines++;
+	}
+}
+
+void Company::Savedata()
+{
+	datapath.Format("%d-%d.txt", year, month);
+	std::ofstream OUTfile(datapath);
+	OUTfile << getsituation_now();
+	OUTfile.close();
+}
+
+void Company::Updatesalary()
+{
+	for (int i = 0; i < membernum; i++)
+	{
+		members[i].updatesalary();
 	}
 }
 
@@ -290,7 +307,7 @@ int Company::Deletmember_byindex(int index)
 {
 	if (index >= membernum || index < 0)return -1;
 	std::string line;
-	std::fstream Write(memberpath);
+	std::ofstream Write(memberpath);
 	for (int i = 0; i < membernum; i++)
 	{
 		if (i == index)continue;
@@ -334,6 +351,11 @@ void Company::Upgrade_byindex(int index,bool tec)
 	if (index >= membernum || index < 0)return;
 	members[index].upgrade(tec);
 	Savemembers();
+}
+
+double Company::getbonus_byid(int id)
+{
+	return members[get_index_by_num(id)].getbonus();
 }
 
 void Company::Upgrade_byname(CString name, bool tec)
@@ -388,6 +410,7 @@ CString Company::getsituation_now()
 	}
 	for (int i = 0; i < membernum; i++)
 	{
+		members[num[i]].updatesalary(0, total_money);
 		CString mid;
 		mid.Format("number: %d    name: %s    ", members[num[i]].Getnum(), members[num[i]].getname());
 		situation.Append(mid);

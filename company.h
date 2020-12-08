@@ -21,6 +21,8 @@ public:
 
 	double getearn() { return earn; }
 
+	double getbonus() { return bonus; }
+
 	CString getformula();
 
 	CString getsituation_now();
@@ -57,6 +59,8 @@ public:
 	void setTotalmoney();
 	double getearnmoney() { return total_money; }
 	double getearnmoney_id(int id) { return members[get_index_by_num(id)].getearn(); }
+	double getbonus_byid(int id);
+	CString get_statename(int id) { return members[get_index_by_num(id)].Getstatename(); }
 	void AddNewmember(int num, CString statena, CString na);
 	CString getname_bynum(int num);
 	int Deletmember_byname(CString name);
@@ -72,8 +76,10 @@ public:
 	void Downgrade_bynum(int num, bool tec);
 	void Downgrade_byname(CString name, bool tec);
 	void Load();
+	void Updatesalary();
 	int SetBonus(int id,double bon);
 	int SetEarn(int id, double ear);
+	void Savedata();
 	int month, year;
 private:
 	CString getname_byindex(int index);
