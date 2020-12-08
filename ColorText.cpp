@@ -237,7 +237,7 @@ int CMainWindow::OnCreate (LPCREATESTRUCT lpcs)
         WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 100,
             m_cyChar * 15, m_cxChar * 160, m_cyChar * 20), this);
 
-    searchall.Create(_T("1"),
+    searchall.Create(_T(""),
         WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(m_cxChar * 100,
             m_cyChar * 20, m_cxChar * 200, m_cyChar * 80), this);
 
@@ -351,8 +351,10 @@ HBRUSH CColorStatic::CtlColor (CDC* pDC, UINT nCtlColor)
 
 void CMainWindow::remove()
 {
+    if (log == 0)return;
     int id;
     CString nu;
+    searchall.SetWindowTextA(D.getsituation_now());
     deletenum.GetWindowTextA(nu);
     id = atoi(nu);
     nu = D.getname_bynum(id);
@@ -369,8 +371,10 @@ void CMainWindow::remove()
 
 void CMainWindow::addnew()
 {
+    if (log == 0)return;
     int id;
     CString nu,name;
+    searchall.SetWindowTextA(D.getsituation_now());
     addnum.GetWindowTextA(nu);
     id = atoi(nu);
     addname.GetWindowTextA(name);
@@ -394,6 +398,7 @@ void CMainWindow::addnew()
 
 void CMainWindow::SETBonus()
 {
+    if (log == 0)return;
     int id;
     CString nu,sum;
     BonusId.GetWindowTextA(nu);
@@ -423,6 +428,7 @@ void CMainWindow::SETBonus()
 
 void CMainWindow::SetSale()
 {
+    if (log == 0)return;
     int id;
     CString nu, sum;
     SaleId.GetWindowTextA(nu);
@@ -476,6 +482,7 @@ void CMainWindow::LOGGIN()
 
 void CMainWindow::Searching()
 {
+    if (log == 0)return;
     int id;
     CString nu;
     SearchID.GetWindowTextA(nu);
@@ -494,6 +501,7 @@ void CMainWindow::Searching()
 
 void CMainWindow::SETTime()
 {
+    if (log == 0)return;
     int year, month;
     CString y, m;
     Year.GetWindowTextA(y);
@@ -509,24 +517,27 @@ void CMainWindow::SETTime()
     D.year = year;
     D.month = month;
     y.Format("登记状态：设定时间%d年%d月", year,month);
+    searchall.SetWindowTextA(D.getsituation_now());
     setsituation.SetWindowTextA(y);
     return;
 }
 
 void CMainWindow::UPG()
 {
+    if (log == 0)return;
     int id;
     CString nu;
     UPid.GetWindowTextA(nu);
     id = atoi(nu);
     TorS.GetWindowTextA(nu);
-    
+    searchall.SetWindowTextA(D.getsituation_now());
     if (D.Idexsist(id)&&((nu=="技")||(nu="销")))
     {
         if((nu == "技"))
         D.Upgrade_bynum(id,1);
         else D.Upgrade_bynum(id, 0);
         nu.Format("恭喜%s%s", D.get_statename(id), D.getname_bynum(id));
+        searchall.SetWindowTextA(D.getsituation_now());
         edit.SetWindowTextA(nu);
     }
     else
@@ -538,5 +549,7 @@ void CMainWindow::UPG()
 
 void CMainWindow::Save()
 {
+    if (log == 0)return;
+    searchall.SetWindowTextA(D.getsituation_now());
     D.Savedata();
 }

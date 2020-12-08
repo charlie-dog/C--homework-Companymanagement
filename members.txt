@@ -1,5 +1,4 @@
 1;general_manager;Dio
-2;tech_manager;D
 8;sale_manager;zepplin
 9;salesperson;jony
 10;sale_manager;spicygirl
