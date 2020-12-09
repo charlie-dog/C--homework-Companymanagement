@@ -82,7 +82,7 @@ public:
 	void Savedata();
 	int month, year;
 private:
-	CString getname_byindex(int index);
+	CString getname_byindex(int index);										
 	int get_index_by_num(int num);
 	int get_index_by_name(CString name);
 	int Deletmember_byindex(int index);

@@ -186,14 +186,13 @@ void Company::Updatesalary()
 void Company::Savemembers()
 {
 	std::string line;
-	std::fstream Write(memberpath);
+	std::ofstream Write(memberpath);
 	for (int i = 0; i < membernum; i++)
 	{
-		
-		if(newmember!=1&&i==membernum-1) Write << members[i].Getnum() << ";" << members[i].Getstatename() << ";" << members[i].getname();
+		if (i == membernum - 1) Write << members[i].Getnum() << ";" << members[i].Getstatename() << ";" << members[i].getname();
 		else Write << members[i].Getnum() << ";" << members[i].Getstatename() << ";" << members[i].getname() << std::endl;
 	}
-	if(newmember)Write << Newmember.Getnum() << ";" << Newmember.Getstatename() << ";" << Newmember.getname() << std::endl;
+	Write.close();
 
 }
 
@@ -212,9 +211,9 @@ void Company::AddNewmember(int num, CString statena, CString na)
 	Newmember.setname(na);
 	Newmember.setnum(num);
 	Newmember.setstatename(statena);
-	Savemembers();
 	membernum++;
 	members[membernum - 1] = Newmember;
+	Savemembers();
 	newmember = 0;
 	
 }

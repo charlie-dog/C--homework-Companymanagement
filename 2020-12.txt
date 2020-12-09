@@ -1,8 +1,0 @@
-2020-12
-number: 1    name: Dio    state: 4    salary: 20000 = 工资:20000
-number: 2    name: D    state: 3    salary: 12200.000000 = 工资:12000+奖金:200.000000
-number: 5    name: sexypistol    state: 3    salary: 12000.000000 = 工资:12000+奖金:0.000000
-number: 8    name: zepplin    state: 3    salary: 8000.000000 = 工资:8000+提成:0.000000*0.005
-number: 9    name: jony    state: 1    salary: 0.000000 = 提成:0.000000*0.01
-number: 10    name: spicygirl    state: 3    salary: 8000.000000 = 工资:8000+提成:0.000000*0.005
-number: 20    name: Ozzy    state: 2    salary: 6000.000000 = 工资:6000+奖金:0.000000
